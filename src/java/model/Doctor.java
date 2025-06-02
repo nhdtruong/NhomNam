@@ -17,7 +17,7 @@ public class Doctor {
     private int role_id;
     private String doctor_name;
     private String  gender;
-    private Deparment department;
+    private Department department;
     private Date DOB;
     private String  phone;
     private String email;
@@ -32,7 +32,7 @@ public class Doctor {
 
   
 
-    public Doctor(String doctor_name, Deparment department, String img, AcademicDegree academicDegree, AcademicTitle academicTitle, Position position) {
+    public Doctor(String doctor_name, Department department, String img, AcademicDegree academicDegree, AcademicTitle academicTitle, Position position) {
         this.doctor_name = doctor_name;
         this.department = department;
         this.img = img;
@@ -41,7 +41,7 @@ public class Doctor {
         this.position = position;
     }
 
-    public Doctor(int doctor_id, String doctor_name, String gender, Deparment department, Date DOB, String phone,String email, String description, int status, String img, AcademicDegree academicDegree, AcademicTitle academicTitle, Position position, String adress) {
+    public Doctor(int doctor_id, String doctor_name, String gender, Department department, Date DOB, String phone,String email, String description, int status, String img, AcademicDegree academicDegree, AcademicTitle academicTitle, Position position, String adress) {
         this.doctor_id = doctor_id;
         this.doctor_name = doctor_name;
         this.gender = gender;
@@ -60,7 +60,7 @@ public class Doctor {
 
    
 
-    public Doctor(int doctor_id, int role_id, String doctor_name, String gender, Deparment department, Date DOB, String phone, String description, int status, String img, RateStar rateStar, AcademicDegree academicDegree, AcademicTitle academicTitle, Position position, String adress) {
+    public Doctor(int doctor_id, int role_id, String doctor_name, String gender, Department department, Date DOB, String phone, String description, int status, String img, RateStar rateStar, AcademicDegree academicDegree, AcademicTitle academicTitle, Position position, String adress) {
         this.doctor_id = doctor_id;
         this.role_id = role_id;
         this.doctor_name = doctor_name;
@@ -112,11 +112,11 @@ public class Doctor {
         this.gender = gender;
     }
 
-    public Deparment getDepartment() {
+    public Department getDepartment() {
         return department;
     }
 
-    public void setDepartment(Deparment department) {
+    public void setDepartment(Department department) {
         this.department = department;
     }
 

@@ -22,7 +22,8 @@ public class CategoryServiceDAO  extends DBContext{
      
      public List<CategoryServices> getAllCategoryServiceses(){
         List<CategoryServices> list = new ArrayList<>();
-        String sql = "select c.id,c.name ,c.img from category_service c" ;
+        String sql = "select c.id,c.name ,c.img from category_service c where c.status=1" ;
+        
         try {
             ps = connection.prepareStatement(sql);
             rs = ps.executeQuery();
@@ -37,4 +38,8 @@ public class CategoryServiceDAO  extends DBContext{
         
         return null;
     } 
+
+    public Object getAll() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }

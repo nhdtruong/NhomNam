@@ -12,7 +12,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import model.Deparment;
+import model.Department;
 import dal.DepartmentDAO;
 import java.util.List;
 
@@ -37,7 +37,7 @@ public class Specialty extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         try (PrintWriter out = response.getWriter()) {
          DepartmentDAO dao = new DepartmentDAO();
-         List<Deparment> listDe = dao.getAllDeparment();
+         List<Department> listDe = dao.getAllDeparment();
          request.setAttribute("listDe", listDe);
          request.getRequestDispatcher("specialty.jsp").forward(request, response);
         }catch (Exception e) {

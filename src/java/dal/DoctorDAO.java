@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import model.AcademicDegree;
 import model.AcademicTitle;
-import model.Deparment;
+import model.Department;
 import model.Doctor;
 import model.Position;
 
@@ -68,7 +68,7 @@ public class DoctorDAO extends DBContext{
         return null;
     } 
     
-        public Deparment getDepartmentByDoctor_department_id(int id){
+        public Department getDepartmentByDoctor_department_id(int id){
         
         String sql = "select d.department_id, d.department_name from department d where d.department_id = ?;";
         try {
@@ -77,7 +77,7 @@ public class DoctorDAO extends DBContext{
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
             if(rs.next()){
-                return new Deparment(rs.getInt(1),rs.getString(2));
+                return new Department(rs.getInt(1),rs.getString(2));
             }
             
             

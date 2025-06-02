@@ -1,8 +1,4 @@
-<%-- 
-    Document   : service
-    Created on : Feb 26, 2022, 5:38:18 PM
-    Author     : Khuong Hung
---%>
+
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -32,6 +28,12 @@
                                                     <input type="submit" id="searchsubmit" value="Search">
                                                 </div>
                                             </form>
+
+
+
+
+
+
                                         </div>
                                     </div> 
                                 </div>
@@ -47,7 +49,7 @@
                                                 <select name="category" class="form-select">
                                                     <option <c:if test="${category1 == 'all'}"> selected </c:if> value="all">Tất cả</option>
                                                     <c:forEach items="${category}" var="s">
-                                                        <option <c:if test="${category1 == s.id}"> selected </c:if> value="${s.id}">${s.name}</option>
+                                                        <option <c:if test="${category1 == s.id}"> selected </c:if> value="${s.service_id}">${s.name}</option>
                                                     </c:forEach>
                                                 </select>  
                                             </div>
@@ -69,35 +71,57 @@
                                     <table class="table mb-0 table-center">
                                         <thead>
                                             <tr>
-                                                <th class="border-bottom p-3" >ID</th>
-                                                <th class="border-bottom p-3" >Tên dịch vụ</th>
-                                                <th class="border-bottom p-3" >Thể loại</th>
-                                                <th class="border-bottom p-3" >Phí</th>
-                                                <th class="border-bottom p-3" >Trạng thái</th>
-                                                <th class="border-bottom p-3 text-center" >Action</th>
-                                            </tr>
+                                        <table class="table table-hover table-striped table-bordered mt-4 align-middle text-center shadow-sm">
+                                            <thead class="table-primary">
+                                                <tr>
+                                                    <th scope="col">ID</th>
+                                                    <th scope="col">Tên dịch vụ</th>
+                                                    <th scope="col">Thể loại</th>
+                                                    <th scope="col">Phí</th>
+                                                    <th scope="col">Giảm giá</th>
+                                                    <th scope="col">BHYT</th>
+                                                    <th scope="col">Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <c:forEach var="s" items="${listS}">
+                                                    <tr>
+                                                        <td>${s.service_id}</td>
+                                                        <td class="text-start">${s.service_name}</td>
+                                                        <td>${s.category_service.name}</td>
+                                                        <td><fmt:formatNumber value="${s.fee}" pattern="#,##0.00"/> đ</td>
+
+                                                        <td>${s.discount}%</td>
+                                                        <td>
+                                                            <span class="badge bg-${s.is_bhyt ? 'success' : 'secondary'}">
+                                                                <c:choose>
+                                                                    <c:when test="${s.is_bhyt}">Có</c:when>
+                                                                    <c:otherwise>Không</c:otherwise>
+                                                                </c:choose>
+                                                            </span>
+                                                        </td>
+                                                        <td>
+                                                            <a href="servicemanage?action=edit&id=${s.service_id}"class="btn btn-sm btn-warning me-1">Sửa</a>
+                                                            <a href="servicemanage?action=delete&id=${s.service_id}" class="btn btn-sm btn-danger" onclick="return confirm('Bạn chắc chắn muốn xóa?');">Xóa</a>
+                                                        </td>
+                                                    </tr>
+                                                </c:forEach>
+                                            </tbody>
+                                        </table>
+                                        </tr>
                                         </thead>
                                         <tbody>
                                             <c:forEach items="${service}" var="s">
                                                 <tr>
-                                                    <td class="p-3" ondblclick="window.location.href = 'servicemanage?action=viewfeedback&id=${s.service_id}'" >${s.service_id}</td>
-                                                    <td class="p-3" ondblclick="window.location.href = 'servicemanage?action=viewfeedback&id=${s.service_id}'" >${s.title}</td>
-                                                    <td class="p-3">${s.setting.name}</td>
+                                                    <td class="p-3" ondblclick="window.location.href = 'servicemanage?action=viewfeedback&id=${s.service_id}'">${s.service_id}</td>
+                                                    <td class="p-3" ondblclick="window.location.href = 'servicemanage?action=viewfeedback&id=${s.service_id}'">${s.service_name}</td>
+                                                    <td class="p-3">${s.category_service.name}</td>
                                                     <td class="p-3"><fmt:formatNumber pattern="#,###,###,###" value="${s.fee}"/> đ</td>
-                                                    <c:if test="${s.status == true}">
-                                                        <td class="p-3">Active</td>
-                                                    </c:if>
-                                                    <c:if test="${s.status == false}">
-                                                        <td class="p-3">Disable</td>
-                                                    </c:if>
-                                                    <td class=" text-center p-3">
-                                                        <c:if test="${s.status == true}">
-                                                            <button class="btn btn-info disable" type="button" style="width: 140px" value="${s.service_id}">Deactivate</button>
-                                                        </c:if>
-                                                        <c:if test="${s.status == false}">
-                                                            <button class="btn btn-info active" type="button" style="width: 140px" value="${s.service_id}">Active</button>
-                                                        </c:if>
-                                                        <a href="servicemanage?action=detail&id=${s.service_id}" type="button"class="btn btn-info">Chi tiết</a>
+                                                    <td class="p-3">${s.is_bhyt ? 'Có BHYT' : 'Không BHYT'}</td>
+                                                    <td class="text-center p-3">
+                                                        <a href="servicemanage?action=edit&id=${s.service_id}" class="btn btn-info">Sửa</a>
+                                                        <button class="btn btn-danger delete" type="button" value="${s.service_id}">Xóa</button>
+                                                        <a href="servicemanage?action=detail&id=${s.service_id}" class="btn btn-info">Chi tiết</a>
                                                     </td>
                                                 </tr>
                                             </c:forEach>
@@ -112,7 +136,7 @@
                                 <div class="d-md-flex align-items-center text-center justify-content-between">
                                     <ul class="pagination justify-content-center mb-0 mt-3 mt-sm-0">
                                         <c:forEach begin="${1}" end="${num}" var="i">
-                                            <li class="page-item ${i==page?"active":""}"><a class="page-link" href="${url}&page=${i}">${i}</a></li>
+                                            <li class="page-item ${i==page?'active':''}"><a class="page-link" href="${url}&page=${i}">${i}</a></li>
                                             </c:forEach>
                                     </ul>
                                 </div>
@@ -138,39 +162,21 @@
         <script src="assets/js/sweetalert.min.js"></script>
         <script>
                                                         $(document).ready(jQuery(function () {
-                                                            jQuery(".disable").click(function () {
+                                                            // Handle delete action
+                                                            jQuery(".delete").click(function () {
                                                                 swal({
                                                                     title: "Cảnh báo",
-                                                                    text: "Bạn có chắc chắn muốn khóa dịch vụ này?",
+                                                                    text: "Bạn có chắc chắn muốn xóa dịch vụ này?",
                                                                     buttons: ["Hủy bỏ", "Đồng ý"],
                                                                 })
                                                                         .then((willDelete) => {
                                                                             if (willDelete) {
-                                                                                window.location = "servicemanage?action=update_status&id=" + $(this).attr("value") + "&status=false";
-                                                                                swal("Đã khóa thành công.!", {
-                                                                                });
-                                                                            }
-                                                                        });
-                                                            });
-
-                                                            jQuery(".active").click(function () {
-                                                                swal({
-                                                                    title: "Cảnh báo",
-                                                                    text: "Bạn có chắc chắn muốn kích hoạt dịch vụ này?",
-                                                                    buttons: ["Hủy bỏ", "Đồng ý"],
-                                                                })
-                                                                        .then((willDelete) => {
-                                                                            if (willDelete) {
-                                                                                window.location = "servicemanage?action=update_status&id=" + $(this).attr("value") + "&status=true";
-                                                                                swal("Đã kích hoạt thành công.!", {
-                                                                                });
+                                                                                window.location = "servicemanage?action=delete&id=" + $(this).attr("value");
+                                                                                swal("Đã xóa thành công.!", {});
                                                                             }
                                                                         });
                                                             });
                                                         }));
         </script>
-
     </body>
-
 </html>
-

@@ -8,22 +8,22 @@ package model;
  *
  * @author DELL
  */
-public class Deparment {
+public class Department {
     private int id;
     private String department_name;
     private String img;
 
-    public Deparment() {
+    public Department() {
     }
 
-    public Deparment(int id, String department_name) {
+    public Department(int id, String department_name) {
         this.id = id;
         this.department_name = department_name;
     }
     
     
 
-    public Deparment(String department_name, String img) {
+    public Department(String department_name, String img) {
         this.department_name = department_name;
         this.img = img;
     }
@@ -44,7 +44,7 @@ public class Deparment {
         this.img = img;
     }
 
-    public Deparment(int id, String department_name, String img) {
+    public Department(int id, String department_name, String img) {
         this.id = id;
         this.department_name = department_name;
         this.img = img;
