@@ -42,8 +42,6 @@
                             <div class="col-md-8 ">
                                 <form class="row" action="appointmentManager?action=filter" method="POST" onSubmit="document.getElementById('submit').disabled = true;">
                                     <div class=" justify-content-md-end row">
-
-
                                         <div class="col-md-5 row align-items-center">
                                             <div class="col-md-5" style="text-align: end">
                                                 <label  class="form-label">Trạng thái</label>
@@ -171,17 +169,25 @@
 
                                                     <td class="p-3">
 
+                                                        <c:if test="${a.status != 0 && a.status != 2}">
+                                                            <a href="updateAppoitment?action=updateAppointment&appointmentId=${a.appointmentId}" class="btn btn-primary" title="Sửa bác sĩ">
+                                                                <i class="fa-solid fa-pen-to-square"></i>
+                                                            </a>
+                                                        </c:if>
 
-                                                        <a href="updateAppoitment?action=updateAppointment&appointmentId=${a.appointmentId}" class="btn btn-primary" title="Sửa bác sĩ">
-                                                            <i class="fa-solid fa-pen-to-square"></i>
-                                                        </a>
 
-                                                        <!-- Nút xóa -->
-                                                        <a href="#" class="btn btn-danger" 
-                                                           onclick="openDeleteModal('${d.getDoctor_id()}', '${d.getDoctor_name()}')" 
-                                                           title="Xóa bác sĩ">
-                                                            <i class="fa-solid fa-trash"></i>
-                                                        </a>
+
+                                                        <c:if test="${a.status == 0 || a.status == 2}">
+                                                            <form action="updateAppoitment" method="post" style="display:inline;">
+                                                                <input type="hidden" name="action" value="deleteAppointment">
+                                                                <input type="hidden" name="appointmentId" value="${a.appointmentId}">
+
+                                                                <button type="submit" class="btn btn-danger" title="Xóa bác sĩ" onclick="return confirm('Bạn có chắc muốn xóa lịch này không?');">
+                                                                    <i class="fa-solid fa-trash"></i>
+                                                                </button>
+                                                            </form>
+                                                        </c:if>
+
 
                                                     </td>
 
@@ -267,10 +273,12 @@
 
                 </c:if>
 
+
                 <jsp:include page="../admin/layout/footer.jsp"/>
             </main>
         </div>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
         <script src="assets/js/jquery.min.js"></script>
@@ -285,6 +293,52 @@
         <script src="assets/js/feather.min.js"></script>
         <script src="assets/js/app.js"></script>
 
+        <c:if test="${canceled == 'true'}">
+            <div class="modal fade" id="cancelSuccessModal" tabindex="-1" aria-labelledby="cancelSuccessModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content text-center">
+                        <div class="modal-header bg-success text-white justify-content-center">
+                            <h5 class="modal-title" id="cancelSuccessModalLabel">Hủy lịch thành công!</h5>
+                        </div>
+                        <div class="modal-body">
+                            Phiếu khám đã được hủy thành công!
+                        </div>
+                    </div>
+                </div>
+            </div> 
+        </c:if>
+        <c:if test="${deleted == 'true'}">
+            <div class="modal fade" id="cancelSuccessModal" tabindex="-1" aria-labelledby="deletedSuccessModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content text-center">
+                        <div class="modal-header bg-success text-white justify-content-center">
+                            <h5 class="modal-title" id="cancelSuccessModalLabel">Xóa lịch thành công!</h5>
+                        </div>
+                        <div class="modal-body">
+                            Xóa thành công!
+                        </div>
+                    </div>
+                </div>
+            </div> 
+        </c:if>
+
+
+        <script>
+                                                                    window.addEventListener('DOMContentLoaded', function () {
+                                                                        const modal = new bootstrap.Modal(document.getElementById('cancelSuccessModal'));
+                                                                        modal.show();
+                                                                        setTimeout(() => {
+                                                                            modal.hide();
+                                                                        }, 1000);
+                                                                    });
+                                                                    window.addEventListener('DOMContentLoaded', function () {
+                                                                        const modal = new bootstrap.Modal(document.getElementById('deletedSuccessModalLabel'));
+                                                                        modal.show();
+                                                                        setTimeout(() => {
+                                                                            modal.hide();
+                                                                        }, 1000);
+                                                                    });
+        </script>
 
 
     </body>

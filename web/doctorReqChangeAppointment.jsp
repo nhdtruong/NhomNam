@@ -148,7 +148,7 @@
                                                                                             <c:otherwise>btn-secondary text-white disabled</c:otherwise>
                                                                                         </c:choose>"
                                                                                         style="${slot.status != 1 ? 'pointer-events: none; opacity: 0.6;' : ''}"
-                                                                                        onclick="showConfirmModal('${appointmentId}', '${slot.slotStart}', '${slot.slotEnd}', '${formattedDate}', '${doctorId}', '${slot.slotId}')">
+                                                                                        onclick="showConfirmModal('${appointmentId}', '${slot.slotStart}', '${slot.slotEnd}', '${formattedDate}', '${slot.slotId}')">
 
                                                                                     <fmt:formatDate value="${slot.slotStart}" pattern="HH:mm" /> -
                                                                                     <fmt:formatDate value="${slot.slotEnd}" pattern="HH:mm" />
@@ -176,7 +176,7 @@
                                                                                             <c:otherwise>btn-secondary text-white disabled</c:otherwise>
                                                                                         </c:choose>"
                                                                                         style="${slot.status != 1 ? 'pointer-events: none; opacity: 0.6;' : ''}"
-                                                                                        onclick="showConfirmModal('${appointmentId}', '${slot.slotStart}', '${slot.slotEnd}', '${formattedDate}', '${doctorId}', '${slot.slotId}')">
+                                                                                        onclick="showConfirmModal('${appointmentId}', '${slot.slotStart}', '${slot.slotEnd}', '${formattedDate}', '${slot.slotId}')">
 
                                                                                     <fmt:formatDate value="${slot.slotStart}" pattern="HH:mm" /> -
                                                                                     <fmt:formatDate value="${slot.slotEnd}" pattern="HH:mm" />
@@ -212,7 +212,7 @@
                                                                                             <c:otherwise>btn-secondary text-white disabled</c:otherwise>
                                                                                         </c:choose>"
                                                                                         style="${slot.status != 1 ? 'pointer-events: none; opacity: 0.6;' : ''}"
-                                                                                        onclick="showConfirmModal('${appointmentId}', '${slot.slotStart}', '${slot.slotEnd}', '${formattedDate}', '${doctorId}', '${slot.slotId}')">
+                                                                                        onclick="showConfirmModal('${appointmentId}', '${slot.slotStart}', '${slot.slotEnd}', '${formattedDate}', '${slot.slotId}')">
 
                                                                                     <fmt:formatDate value="${slot.slotStart}" pattern="HH:mm" /> -
                                                                                     <fmt:formatDate value="${slot.slotEnd}" pattern="HH:mm" />
@@ -239,7 +239,7 @@
                                                                                             <c:otherwise>btn-secondary text-white disabled</c:otherwise>
                                                                                         </c:choose>"
                                                                                         style="${slot.status != 1 ? 'pointer-events: none; opacity: 0.6;' : ''}"
-                                                                                        onclick="showConfirmModal('${appointmentId}', '${slot.slotStart}', '${slot.slotEnd}', '${formattedDate}', '${doctorId}', '${slot.slotId}')">
+                                                                                        onclick="showConfirmModal('${appointmentId}', '${slot.slotStart}', '${slot.slotEnd}', '${formattedDate}', '${slot.slotId}')">
 
                                                                                     <fmt:formatDate value="${slot.slotStart}" pattern="HH:mm" /> -
                                                                                     <fmt:formatDate value="${slot.slotEnd}" pattern="HH:mm" />
@@ -313,11 +313,9 @@
                             </div>
 
                             <input type="hidden" name="appointmentId" id="appointmentId" />
-                            <input type="hidden" name="doctorId" id="inputDoctorId" />
-                            <input type="hidden" name="slotId" id="inputSlotId" />
-                            <input type="hidden" name="dateBooking" id="inputDateBooking" />
-                            <input type="hidden" name="slotStart" id="inputSlotStart" />
-                            <input type="hidden" name="slotEnd" id="inputSlotEnd" />
+                            
+                            <input type="hidden" name="slotIdReqChange" id="inputSlotId" />
+                          
                             <input type="hidden" name="action" value="excuteReqChange" />
                             <div class="modal-footer justify-content-center">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
@@ -338,7 +336,7 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
         <script>
-                                                                                            function showConfirmModal(appointmentId, slotStart, slotEnd, dateBooking, doctorId, slotId) {
+                                                                                            function showConfirmModal(appointmentId, slotStart, slotEnd, dateBooking, slotIdReqChange) {
 
                                                                                                 const text = "Bạn có chắc chắn muốn gửi yêu cầu đổi lịch hẹn sang:<br>" +
                                                                                                         "📅 <strong>" + dateBooking + "</strong><br>" +
@@ -348,11 +346,9 @@
 
 
                                                                                                 document.getElementById('appointmentId').value = appointmentId;
-                                                                                                document.getElementById('inputDoctorId').value = doctorId;
-                                                                                                document.getElementById('inputSlotId').value = slotId;
-                                                                                                document.getElementById('inputDateBooking').value = dateBooking;
-                                                                                                document.getElementById('inputSlotStart').value = slotStart;
-                                                                                                document.getElementById('inputSlotEnd').value = slotEnd;
+                                                                                              
+                                                                                                document.getElementById('inputSlotId').value = slotIdReqChange;
+                                                                                                
 
 
                                                                                                 const modal = new bootstrap.Modal(document.getElementById('confirmModal'));

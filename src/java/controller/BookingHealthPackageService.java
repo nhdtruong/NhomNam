@@ -78,7 +78,7 @@ public class BookingHealthPackageService extends HttpServlet {
             session.removeAttribute("dateBooking");
             session.removeAttribute("slotStart");
             session.removeAttribute("slotEnd");
-            
+            session.removeAttribute("chuyenkhoaTypeDoctor");
             String service_id = request.getParameter("service_id");
             String categoryService_id = request.getParameter("categoryService_id");
             ServiceDAO serviceDao = new ServiceDAO();

@@ -50,13 +50,25 @@
 
                                     <div class="container">
                                         <div class="row align-items-center mb-3" style="min-height: 70px;">
-                                            <!-- Bên trái -->
+
                                             <div class="col-6 text-start">
-                                                <div style="margin-left: 30px" class="fw-semibold">Mã phiếu</div>
-                                                <div class="barcode text-uppercase text-break">${bills.appointment_code}</div>
+
+                                                <div style="margin-left: 60px" class="fw-semibold">Mã phiếu</div>
+
+
+                                                <c:if test="${bills.status == 1 || bills.status == 4 || bills.status == 3}">
+                                                    <div class="text-end">
+                                                        <img style="width: 90px; height: 90px ;margin-right: 50px"
+                                                             src="http://localhost:8080/doctris2/QRCodeServlet?data=http://localhost:8080/doctris2/billsDetail?appointment_code=${bills.appointment_code}"
+                                                             alt="alt"/>
+                                                    </div>
+                                                </c:if>
+
+                                                <div class="barcode text-uppercase text-break text-center" style="margin-top: 10px; font-weight: bold;">
+                                                    ${bills.appointment_code}
+                                                </div>
                                             </div>
 
-                                            <!-- Bên phải -->
                                             <div class="col-6 text-end">
                                                 <div class="fw-semibold">Giờ khám dự kiến</div>
                                                 <div style="margin-right: 30px" class="text-primary fs-5 fw-bold">
@@ -66,10 +78,12 @@
                                         </div>
                                     </div>
 
-                                    <c:if test="${bills.status == 1}">
+                                    <c:if test="${bills.status == 1 || bills.status == 4}">
                                         <button class="btn btn-success w-100 mb-3 fw-bold">Đặt khám thành công</button>
                                     </c:if>
-
+                                    <c:if test="${bills.status == 2}">
+                                        <button class="btn btn-success w-100 mb-3 fw-bold">Đã khám</button>
+                                    </c:if>
                                     <c:if test="${bills.status == 0}">
                                         <button class="btn btn-secondary w-100 mb-3 fw-bold">Đã hủy</button>
                                     </c:if>
@@ -80,9 +94,20 @@
                                     <c:if test="${bills.paymentStatus == 'pending'}">
                                         <p class="text-danger fw-bold">Số tiền phải thanh toán: <fmt:formatNumber value="${bills.amount}" pattern="#,##0"/> VNĐ</p>
                                     </c:if>
+
                                     <c:if test="${bills.paymentStatus == 'success'}">
-                                        <p class="text-success fw-bold">Thanh toán thành công: <fmt:formatNumber value="${bills.amount}" pattern="#,##0"/> VNĐ</p>
+                                        <c:if test="${bills.status == 1}">
+                                            <p class="text-success fw-bold">Thanh toán thành công: <fmt:formatNumber value="${bills.amount}" pattern="#,##0"/> VNĐ</p>
+                                        </c:if>
+                                        <c:if test="${bills.status == 0}">
+                                            <p class="text-success fw-bold"> Đã thanh toán: <fmt:formatNumber value="${bills.amount}" pattern="#,##0"/> VNĐ</p>
+                                        </c:if>
+                                        <c:if test="${bills.status == 2}">
+                                            <p class="text-success fw-bold"> Đã thanh toán: <fmt:formatNumber value="${bills.amount}" pattern="#,##0"/> VNĐ</p>
+                                        </c:if>
+
                                     </c:if>
+
                                     <c:if test="${bills.paymentStatus == 'failed'}">
                                         <p class="text-danger fw-bold">Thanh toán không thành công: <fmt:formatNumber value="${bills.amount}" pattern="#,##0"/> VNĐ</p>
                                     </c:if>
@@ -92,22 +117,25 @@
                                     <div class="text-start bg-light p-3 rounded-3">
                                         <c:if test="${not empty bills.departmentName}">
                                             <div class="d-flex mb-3 ">
-                                            <span style="min-width: 150px; margin-left:20px;">Chuyên khoa:</span>
-                                            <strong>${bills.departmentName}</strong>
-                                        </div>
+                                                <span style="min-width: 150px; margin-left:20px;">Chuyên khoa:</span>
+                                                <strong>${bills.departmentName}</strong>
+                                            </div>
                                         </c:if>
-                                        
+
                                         <div class="d-flex  mb-3">
                                             <span style="min-width: 150px; margin-left:20px;">Mã phiếu:</span>
+
                                             <strong>${bills.appointment_code}</strong>
                                         </div>
-                                            <c:if test="${not empty bills.doctorName}">
-                                                <div class="d-flex  mb-3">
-                                                    <span style="min-width: 150px; margin-left:20px;">Bác sĩ:</span>
-                                                    <strong>${bills.doctorName}</strong>
-                                                </div>
-                                            </c:if>
-                                        
+
+
+                                        <c:if test="${not empty bills.doctorName}">
+                                            <div class="d-flex  mb-3">
+                                                <span style="min-width: 150px; margin-left:20px;">Bác sĩ:</span>
+                                                <strong>${bills.doctorName}</strong>
+                                            </div>
+                                        </c:if>
+
                                         <div class="d-flex  mb-3">
                                             <span style="min-width: 150px; margin-left:20px;">Dịch vụ:</span>
                                             <strong>${bills.serviceName}</strong>
@@ -128,44 +156,46 @@
                                             <span style="min-width: 150px; margin-left:20px;">Bệnh nhân:</span>
                                             <strong>${bills.patientName}</strong>
                                         </div>
-                                        <div class="d-flex  mb-3">
-                                            <span style="min-width: 150px; margin-left:20px;">Ngày sinh:</span>
-                                            <strong>2004</strong>
-                                        </div>
-                                        <div class="d-flex  mb-3">
-                                            <span style="min-width: 150px; margin-left:20px;">Mã bệnh nhân:</span>
-                                            <strong>MP-2506300HPZSI</strong>
-                                        </div>
+                                        <!--                                        <div class="d-flex  mb-3">
+                                                                                    <span style="min-width: 150px; margin-left:20px;">Ngày sinh:</span>
+                                                                                    <strong>2004</strong>
+                                                                                </div>
+                                                                                <div class="d-flex  mb-3">
+                                                                                    <span style="min-width: 150px; margin-left:20px;">Mã bệnh nhân:</span>
+                                                                                    <strong>MP-2506300HPZSI</strong>
+                                                                                </div>-->
                                     </div>
 
+                                    <c:if test="${bills.status != 0 && bills.status != 3 && bills.status != 2}">
+                                        <div class="text-start mt-3">
+                                            <p><strong>Lưu ý:</strong></p>
+                                            <p>Cắt giảm thủ tục, Lấy số trước, Thanh toán trước, Giảm xếp hàng chờ đợi</p>
 
-                                    <div class="text-start mt-3">
-                                        <p><strong>Lưu ý:</strong></p>
-                                        <p>Cắt giảm thủ tục, Lấy số trước, Thanh toán trước, Giảm xếp hàng chờ đợi</p>
+
+                                            <div id="more-notes" style="display: none;">
+                                                <ol class="mb-2 ps-3">
+                                                    <li>Quý khách vui lòng giữ lại hoá đơn thanh toán tại Bệnh viện đa khoa FPT để tham gia chương trình ưu đãi hoàn tiền của Doctris.</li>
+                                                    <li>Doctris sẽ gửi thông báo về ưu đãi hoàn tiền qua Email hoặc Zalo ngay sau khi quý khách sử dụng dịch vụ tại Bệnh viện đa khoa FPT.</li>
+                                                    <li>Quý khách vui lòng<strong> đến trước 20 phút</strong> tại Quầy Tiếp Nhận để được kiểm tra thông tin đặt khám và hướng dẫn.</li>
+                                                    <li>Vui lòng<strong> Không ăn, Không uống trà/ Cà phê hoặc Thuốc tiểu đường</strong> trước giờ khám 4 tiếng.</li>
+                                                    <li>Vui lòng liên hệ<strong> Doctris 0335704857</strong> để được hỗ trợ thay đổi lịch hẹn hoặc giải đáp về các chương trình khuyến mãi trên Doctris.</li>
+                                                </ol>
+                                            </div>
 
 
-                                        <div id="more-notes" style="display: none;">
-                                            <ol class="mb-2 ps-3">
-                                                <li>Quý khách vui lòng giữ lại hoá đơn thanh toán tại Bệnh viện đa khoa FPT để tham gia chương trình ưu đãi hoàn tiền của Doctris.</li>
-                                                <li>Medpro sẽ gửi thông báo về ưu đãi hoàn tiền qua Email hoặc Zalo ngay sau khi quý khách sử dụng dịch vụ tại Bệnh viện đa khoa FPT.</li>
-                                                <li>Quý khách vui lòng<strong> đến trước 20 phút</strong> tại Quầy Tiếp Nhận để được kiểm tra thông tin đặt khám và hướng dẫn.</li>
-                                                <li>Vui lòng<strong> Không ăn, Không uống trà/ Cà phê hoặc Thuốc tiểu đường</strong> Không ăn, Không uống trà/ Cà phê hoặc Thuốc tiểu đường trước giờ khám 4 tiếng.</li>
-                                                <li>Vui lòng liên hệ<strong> Doctris 0335704857</strong> để được hỗ trợ thay đổi lịch hẹn hoặc giải đáp về các chương trình khuyến mãi trên Doctris.</li>
-                                            </ol>
+                                            <button class="btn btn-link p-0 text-primary fw-bold" onclick="toggleNote()" id="toggle-btn">
+                                                Xem thêm <i class="fa-solid fa-chevron-down"></i>
+                                            </button>
                                         </div>
+                                    </c:if>
 
-
-                                        <button class="btn btn-link p-0 text-primary fw-bold" onclick="toggleNote()" id="toggle-btn">
-                                            Xem thêm <i class="fa-solid fa-chevron-down"></i>
-                                        </button>
-                                    </div>
 
                                 </div>
 
 
                             </div>
                             <div class="d-flex justify-content-center gap-2 mt-3">
-                                <c:if test="${bills.status != 0 && bills.status != 3}">
+                                <c:if test="${bills.status != 0 && bills.status != 3 && bills.status !=2}">
                                     <button type="button" class="btn btn-danger px-4"
                                             onclick="openCancelModal(
                                                             '${bills.paymentStatus}',
@@ -174,13 +204,13 @@
                                         <i class="fa-solid fa-trash me-1"></i> Hủy phiếu
                                     </button>
                                 </c:if>
-
-                                <c:if test="${bills.status == 3}">
+                                <!--    <c:if test="${bills.status == 3}">
                                     <button type="button" class="btn btn-warning text-white px-4"
                                             onclick="openCancelModal('${bills.appointmentId}', '${bills.paymentStatus}', '${filter}', '${bills.appointment_code}')">
                                         <i class="fa-solid fa-rotate-left me-1"></i> Thu hồi
                                     </button>
-                                </c:if>
+                                </c:if>comment -->
+
                             </div>
                         </div>
 
@@ -236,8 +266,10 @@
 
                         <p class="text-dark mb-3" style="line-height: 1.7;">
                             Phiếu này <strong>không thể hủy trực tiếp</strong> do đã hoàn tất thanh toán.<br>
-                            Tuy nhiên, bạn có thể <strong>gửi yêu cầu hoàn tiền</strong> để được quản trị viên xem xét.<br>
-                            Thời gian xử lý dự kiến: <strong>3 – 5 tiếng</strong>.
+                            Quý khách có thể gửi yêu cầu hoàn tiền để được điều phối viên thực hiện<br>
+                            <strong>Lưu ý: </strong>sau khi gửi yêu cầu không thể thu hồi lại!<br>
+                            Liên hệ ngay đường dây nóng <strong> 0335704857</strong> để được hỗ trợ kịp thời.
+
                         </p>
 
                         <!-- Form gửi yêu cầu hoàn tiền -->
@@ -253,11 +285,11 @@
                             <input type="hidden" name="amount" value="${bills.amount}">
                             <input type="hidden" name="note" value="${bills.note}">
 
-                            <div class="mb-3 text-start">
-                                <label for="refundReason" class="form-label fw-bold">Lý do yêu cầu hoàn tiền (không bắt buộc):</label>
-                                <textarea class="form-control" id="refundReason" name="refundReason" rows="3"
-                                          placeholder="Nhập lý do..."></textarea>
-                            </div>
+                            <!--                            <div class="mb-3 text-start">
+                                                            <label for="refundReason" class="form-label fw-bold">Lý do yêu cầu hoàn tiền (không bắt buộc):</label>
+                                                            <textarea class="form-control" id="refundReason" name="refundReason" rows="3"
+                                                                      placeholder="Nhập lý do..."></textarea>
+                                                        </div>-->
 
                             <div class="d-flex justify-content-center gap-2 mt-3">
                                 <button type="submit" class="btn btn-danger">

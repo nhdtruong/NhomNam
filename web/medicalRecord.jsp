@@ -100,6 +100,8 @@
                                             <div class="col-md-6">📍 Địa chỉ: <strong>${patient.address}</strong></div>
                                             <input type="hidden" name="patientId" value="${patient.patientId}" />
                                             <input type="hidden" name="doctorId" value="${doctorId}" />
+                                            <input type="hidden" name="appointmentId" value="${appointmentId}" />
+                                            
                                         </div>
                                     </div>
 
@@ -143,7 +145,7 @@
                                         <div class="card-header bg-warning fw-bold">Hướng dẫn dùng thuốc</div>
                                         <div class="card-body">
                                             <div class="mb-3">
-                                                <label>Hướng dẫn dùng thuốc (chung)</label>
+                                                <label>Hướng dẫn dùng thuốc</label>
                                                 <textarea class="form-control" name="instruction" rows="2" placeholder="Ví dụ: Uống sau ăn, ngày 3 lần..."></textarea>
                                             </div>
                                             <div class="mb-3">
@@ -201,7 +203,7 @@
 
                                     <div class="d-flex justify-content-end">
                                         <button type="submit" class="btn btn-primary px-4 fw-bold">
-                                            💾 Lưu bệnh án
+                                            💾 Hoàn tất khám
                                         </button>
                                     </div>
 
@@ -254,13 +256,13 @@
                                                                 html += "<td class='py-2 text-muted'>" + usage + "</td>";
                                                                 html += "</tr>";
 
-                                                                // Hidden input để submit về server
+                                                         
                                                                 hiddenInputs += "<input type='hidden' name='medicineIds' value='" + medicineId + "' />";
                                                             });
                                                             html += "</table>";
-                                                            // Hiển thị danh sách thuốc
+                                                            
                                                             selectedContainer.innerHTML = html + hiddenInputs;
-                                                            // Đóng modal
+                                                           
                                                             const modalEl = document.getElementById('medicineModal');
                                                             const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
                                                             modal.hide();

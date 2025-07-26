@@ -89,12 +89,12 @@
 
                                     <div class="col-md-4 ">
                                         <div class="col-md-12">
-                                            <h5 class="mb-0">Lịch hẹn từ bệnh nhân</h5>
+                                            <h5 class="mb-0" style="padding-top: 10px;padding-left: 20px">Lịch hẹn từ bệnh nhân</h5>
                                         </div>
 
                                     </div>
                                     <div class="col-md-8 ">
-                                        <form class="row" action="appointmentManager?action=filter" method="POST" onSubmit="document.getElementById('submit').disabled = true;">
+<!--                                        <form class="row" action="appointmentManager?action=filter" method="POST" onSubmit="document.getElementById('submit').disabled = true;">
                                             <div class=" justify-content-md-around row ">
 
 
@@ -117,7 +117,7 @@
                                                         <button type="submit" class="btn btn-primary">Lọc</button>
                                                     </div>
                                                 </div>
-                                            </form>
+                                            </form>-->
                                         </div>
 
                                     </div>
@@ -186,7 +186,7 @@
 
 
                                                                 <div class="d-flex gap-2" style="justify-content: center">
-                                                                    <a href="examination?patientId=${a.patient.patientId}" class="btn btn-primary">
+                                                                    <a href="examination?patientId=${a.patient.patientId}&appointmentId=${a.appointmentId}" class="btn btn-primary">
                                                                         <i class="fa-solid fa-pen-to-square"></i> Khám
                                                                     </a>
 

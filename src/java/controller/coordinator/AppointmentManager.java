@@ -40,7 +40,10 @@ public class AppointmentManager extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         String action = request.getParameter("action");
         String stopNotify = request.getParameter("stopNotify");
-
+        String canceled = request.getParameter("canceled");
+        String deleted = request.getParameter("deleted");
+        request.setAttribute("deleted",deleted);
+        request.setAttribute("canceled", canceled);
         AppointmentDAO appointmentDao = new AppointmentDAO();
         HttpSession session = request.getSession();
 

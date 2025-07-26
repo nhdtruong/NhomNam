@@ -20,11 +20,7 @@ import java.sql.Date;
 import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import model.Doctor;
 import model.WorkingDateSchedule;
 
@@ -89,11 +85,12 @@ public class UpdateAppoitment extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
 
         String action = request.getParameter("action");
-
+       
+        
         if (action.equals("reschedule")) {
             DoctorScheduleDAO DSD = new DoctorScheduleDAO();
             DoctorDAO doctorDAO = new DoctorDAO();
@@ -104,7 +101,7 @@ public class UpdateAppoitment extends HttpServlet {
             String[] parts = doctorId_reDoctorName.split("_", 2);
             String doctorId = parts[0];
             String reDoctorName = parts[1];
-            System.out.println("id:" + doctorId + "re:" + reDoctorName);
+            System.out.println("id:" + doctorId + "reasfsOKKKK:" + reDoctorName);
             String slotId = request.getParameter("slotId");
             String slotIdReqChange = request.getParameter("slotIdReqChange");
             String patientName = request.getParameter("patientName");
@@ -158,7 +155,6 @@ public class UpdateAppoitment extends HttpServlet {
 
             System.out.println("Date input: " + dateBooking_);
 
-           
             Date dateBooking = null;
             try {
                 SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -167,7 +163,7 @@ public class UpdateAppoitment extends HttpServlet {
                 java.util.Date parsedDate = sdf.parse(dateBooking_);
                 dateBooking = new java.sql.Date(parsedDate.getTime());
 
-                System.out.println("Parsed date: " + dateBooking);  
+                System.out.println("Parsed date: " + dateBooking);
             } catch (ParseException e) {
                 e.printStackTrace();
             }
@@ -189,6 +185,26 @@ public class UpdateAppoitment extends HttpServlet {
             } else {
 
                 request.setAttribute("error", "Không thể cập nhật lịch hẹn");
+                response.sendRedirect("login");
+            }
+        } else if (action.equals("cancelAppointment")) {
+            String appointmentId = request.getParameter("appointmentId");
+            AppointmentDAO appointmentDAO = new AppointmentDAO();
+            boolean canceled = appointmentDAO.cancelAppointmentById(Integer.parseInt(appointmentId));
+            if (canceled) {
+                response.sendRedirect("appointmentManager?action=all&canceled=true");
+            } else {
+                request.setAttribute("error", "Không thể xóa lịch hẹn");
+                response.sendRedirect("login");
+            }
+
+        }else if(action.equals("deleteAppointment")){
+            String appointmentId = request.getParameter("appointmentId");
+            AppointmentDAO appointmentDAO = new AppointmentDAO();
+            boolean deleted = appointmentDAO.deleteAppointmentById(Integer.parseInt(appointmentId));
+            if(deleted){
+                response.sendRedirect("appointmentManager?action=all&deleted=true");
+            }else{
                 response.sendRedirect("login");
             }
         }

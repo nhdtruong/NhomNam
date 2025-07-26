@@ -76,6 +76,7 @@ public class BookingVideoCall extends HttpServlet {
             session.removeAttribute("dateBooking");
             session.removeAttribute("slotStart");
             session.removeAttribute("slotEnd");
+            session.removeAttribute("chuyenkhoaTypeDoctor");
             ServiceDAO serviceDao = new ServiceDAO();
             String doctorId = request.getParameter("doctorId");
             String doctorName = request.getParameter("doctorName");

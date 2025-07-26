@@ -7,21 +7,44 @@
     <jsp:include page="layout/head.jsp"/>
     <body>
         <jsp:include page="layout/menu_white.jsp"/>
-        <section class="bg-half-150 bg-light d-table w-100">
+        <section class=" bg-half-50 d-table w-100" style="background: url('assets/images/bg/banner4.png') center; margin-top: 70px">
+
             <div class="container">
-                <div class="row mt-5 justify-content-center">
-                    <div class="col-12">
-                        <div class="section-title text-center">
-                            <h3 class="sub-title mb-4">Danh sách bác sĩ</h3>
-                            <p class="para-desc mx-auto text-muted">Nếu bạn,người nhà của mình cần nhận được sự trợ giúp ngay lập tức, điều trị khẩn cấp hãy đặt lịch hẹn.</p>
-                            <nav aria-label="breadcrumb" class="d-inline-block mt-3">
-                                <ul class="breadcrumb bg-transparent mb-0">
-                                    <li class="breadcrumb-item"><a href="home">Home</a></li>
-                                    <li class="breadcrumb-item"><a href="#">Doctors</a></li>
-                                </ul>
-                            </nav>
+                <div class="row mt-5 mt-lg-0">
+                    <div class="row mt-5 mt-lg-0">
+                        <div class="col-12">
+                            <div class="heading-title mb-4">
+                                <div class="row align-items-center">
+                                    <!-- Nội dung bên trái -->
+                                    <div class="col-md-7">
+                                        <div class="p-4  shadow"  style="background-color:white; border-radius: 20px;">
+                                            <h3 class="fw-bold mb-3" style="color: #00b4d8;">ĐẶT KHÁM THEO BÁC SĨ</h3>
+                                            <ul class="mb-4" style="list-style: none; padding-left: 0;">
+                                                <li>✔ Chủ động chọn bác sĩ tin tưởng, đặt càng sớm càng tốt</li>
+                                                <li>✔ Đặt khám theo giờ, không cần chờ lấy số thứ tự, chờ thanh toán</li>
+                                                <li>✔ Được hoàn phí khám nếu hủy phiếu</li>
+                                                <li>✔️Được hưởng chính sách hoàn tiền khi đặt lịch trên Doctris</li>
+                                            </ul>
+                                            <div class="d-flex align-items-center flex-wrap gap-2 mb-3">
+                                                <p class="mb-0 fw-medium">
+                                                    Liên hệ <span class="fw-bold">chuyên gia</span> để tư vấn thêm:
+                                                </p>
+                                                <a href="tel:19002115" class="text-primary fw-bold" style="font-size: 1.1rem;">📞 19002115</a>
+                                                <span>hoặc</span>
+                                                <a href="#" class="btn btn-warning text-white fw-bold">💬 Chat ngay</a>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Ảnh bên phải -->
+                                    <div class="col-md-5 text-center">
+                                        <img src="assets/images/bg/banner6.png" alt="Gọi video với bác sĩ" class="img-fluid" style="max-width: 100%;margin-bottom:-90px">
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
+
                 </div>
             </div>
         </section>
@@ -42,16 +65,17 @@
                                     <c:if test="${d.img!='default'}" >
                                         <!-- Avatar -->
                                         <div class="team-person text-center mt-3">
+                                            
                                             <img src="${d.img}" style="width: 80px; height: 80px; border-radius: 50%;" class="img-fluid" alt="">
                                         </div>
                                     </c:if>
-                                    <c:if test="${d.img=='default'}" >
+                                    <c:if test="${d.img == 'default'}" >
                                         <!-- Avatar -->
                                         <div class="team-person text-center mt-3">
                                             <img src="assets/images/avata.png" style="width: 80px; height: 80px; border-radius: 50%;" class="img-fluid" alt="">
                                         </div>
                                     </c:if>
-                                    <!-- Nội dung chính -->
+                                 
                                     <div class="card-body text-center flex-grow-1 d-flex flex-column justify-content-center">
                                         <a href="#" class="title text-dark h5 d-block mb-0">${d.doctor_name}</a>
                                         <small class="text-muted speciality" style="min-height: 36px; display: block;">Chuyên môn: ${d.department_name}</small>

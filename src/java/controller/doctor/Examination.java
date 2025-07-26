@@ -4,6 +4,7 @@
  */
 package controller.doctor;
 
+import dal.AppointmentDAO;
 import dal.MedicalRecordDAO;
 import dal.MedicineDAO;
 import dal.PatientDAO;
@@ -79,6 +80,8 @@ public class Examination extends HttpServlet {
         List<Medicine> medicineList = medicineDAO.getAllMedicines();
         request.setAttribute("medicineList", medicineList);
         int doctorId = userDAO.getDoctorIdByUsername(acc.getUsername());
+        int appointmentId = Integer.parseInt(request.getParameter("appointmentId"));
+        request.setAttribute("appointmentId", appointmentId);
         request.setAttribute("doctorId", doctorId);
         String patientId = request.getParameter("patientId");
         PatientDAO patientDAO = new PatientDAO();
@@ -104,7 +107,7 @@ public class Examination extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         int patientId = Integer.parseInt(request.getParameter("patientId"));
         int doctorId = Integer.parseInt(request.getParameter("doctorId"));
-
+        int appointmentId = Integer.parseInt(request.getParameter("appointmentId"));
 
         String symptoms = request.getParameter("symptoms");
         String diagnosis = request.getParameter("diagnosis");
@@ -131,7 +134,13 @@ public class Examination extends HttpServlet {
         );
 
         if (success) {
-              response.sendRedirect("myPatient");
+              AppointmentDAO appointmentDAO = new AppointmentDAO();
+             boolean examined =  appointmentDAO.updateAppointmentById(appointmentId);
+             if(examined){
+                 
+                 response.sendRedirect("myPatient");
+             }
+              
         } else {
             request.setAttribute("error", "Lưu bệnh án thất bại.");
             request.getRequestDispatcher("recordForm.jsp").forward(request, response);

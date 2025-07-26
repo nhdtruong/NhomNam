@@ -98,6 +98,7 @@ public class Booking extends HttpServlet {
             ServiceDAO serviceDao = new ServiceDAO();
             String doctorId = request.getParameter("doctorId");
             String doctorName = request.getParameter("doctorName");
+            
             String departmentId = (String)session.getAttribute("departmentId");
  
             String chuyenkhoaTypeDoctor = (String)session.getAttribute("chuyenkhoaTypeDoctor");

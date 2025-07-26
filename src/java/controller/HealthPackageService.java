@@ -95,7 +95,7 @@ public class HealthPackageService extends HttpServlet {
             }
 
             if (listService != null) {
-                int page, numberPerPage = 6;
+                int page, numberPerPage = 5;
                 int size = listService.size();
                 int numberPage = (size % numberPerPage == 0) ? (size / numberPerPage) : ((size / numberPerPage) + 1);
                 String xPage = request.getParameter("page");

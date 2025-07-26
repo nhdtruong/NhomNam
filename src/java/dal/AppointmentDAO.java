@@ -69,7 +69,7 @@ public class AppointmentDAO extends DBContext {
 
         return -1;
     }
-    
+
     public int insertAppointment(
             String appointmentCode,
             int patientId,
@@ -216,17 +216,13 @@ public class AppointmentDAO extends DBContext {
         return false;
     }
 
-     public boolean reqChangeAppointmentByDoctor(int appointmentId, int doctorId, int slot_id_request_change, Date dateBooking, Time slotStart, Time slotEnd) {
-        String sql = "UPDATE appointment SET doctor_id = ?, slot_id_request_change = ?, booking_date = ?, slot_start = ?, slot_end = ?,status = 4  WHERE appointment_id = ?";
+    public boolean reqChangeAppointmentByDoctor(int appointmentId, int slot_id_request_change) {
+        String sql = "UPDATE appointment SET  slot_id_request_change = ?,status = 4  WHERE appointment_id = ?";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setInt(1, doctorId);
-            ps.setInt(2, slot_id_request_change);
-            ps.setDate(3, dateBooking);
-            ps.setTime(4, slotStart);
-            ps.setTime(5, slotEnd);
-            ps.setInt(6, appointmentId);
-
+           
+            ps.setInt(1, slot_id_request_change);
+            ps.setInt(2, appointmentId);
             int rowsAffected = ps.executeUpdate();
             return rowsAffected > 0;
         } catch (SQLException e) {
@@ -235,8 +231,7 @@ public class AppointmentDAO extends DBContext {
 
         return false;
     }
-    
-    
+
     public List<AppointmentView> getAllAppointmentsSearchDoctor(String text) {
         List<AppointmentView> list = new ArrayList<>();
         String sql = "SELECT \n"
@@ -580,10 +575,8 @@ public class AppointmentDAO extends DBContext {
                 + "    a.is_refunded,\n"
                 + "    a.slot_start,\n"
                 + "    a.slot_end,\n"
-
                 + "    a.slot_id,\n"
                 + "    a.slot_id_request_change,\n"
-
                 + "    a.status,\n"
                 + "    a.note,\n"
                 + "    ISNULL(pm.amount, 0) AS amount,\n"
@@ -657,7 +650,7 @@ public class AppointmentDAO extends DBContext {
     public List<AppointmentView> getAppointmentsByDoctorId(int doctorId) {
         List<AppointmentView> list = new ArrayList<>();
 
-         String sql = "SELECT \n"
+        String sql = "SELECT \n"
                 + "    a.appointment_id,\n"
                 + "    a.appointment_code,\n"
                 + "    a.patient_id,\n"
@@ -671,7 +664,7 @@ public class AppointmentDAO extends DBContext {
                 + "    a.slot_start,\n"
                 + "    a.slot_end,\n"
                 + "    a.slot_id,\n"
-                + "    a.slot_id_request_change,\n"        
+                + "    a.slot_id_request_change,\n"
                 + "    a.status,\n"
                 + "    a.note,\n"
                 + "    ISNULL(pm.amount, 0) AS amount,\n"
@@ -686,10 +679,10 @@ public class AppointmentDAO extends DBContext {
                 + "    WHERE appointment_id = a.appointment_id\n"
                 + "    ORDER BY pay_date DESC\n"
                 + ")\n"
-                + "WHERE a.doctor_id = ?";
+                + "WHERE a.doctor_id = ? and a.status in (1 ,4) ";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
-             ps.setInt(1, doctorId);
+            ps.setInt(1, doctorId);
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     AppointmentView a = new AppointmentView();
@@ -733,6 +726,42 @@ public class AppointmentDAO extends DBContext {
         }
     }
 
+    public boolean deleteAppointmentById(int appointment_id) {
+        String sql = "delete from appointment where appointment_id = ? ";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, appointment_id);
+            int rowsAffected = ps.executeUpdate();
+            return rowsAffected > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean updateAppointmentById(int appointment_id) {
+        String sql = "UPDATE appointment SET status = 2 WHERE  appointment_id = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, appointment_id);
+            int rowsAffected = ps.executeUpdate();
+            return rowsAffected > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean cancelAppointmentById(int appointment_id) {
+        String sql = "UPDATE appointment SET status = 0 WHERE  appointment_id = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, appointment_id);
+            int rowsAffected = ps.executeUpdate();
+            return rowsAffected > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     public boolean requestRefoundAppointmentById(String appointment_code) {
         String sql = "UPDATE appointment SET status = 3 WHERE appointment_code = ?";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -749,26 +778,22 @@ public class AppointmentDAO extends DBContext {
 
         String sqlDept = "SELECT COUNT(*) FROM appointment a " //đã đặt cùng chuyên khoa trong ngày
                 + "JOIN [service] s ON a.service_id = s.service_id "
-                + "JOIN doctor_schedule_slot dss ON a.slot_id = dss.slot_id "
-                + "JOIN doctor_schedule ds ON dss.schedule_id = ds.schedule_id "
                 + "WHERE a.patient_id = ? "
-                + "AND ds.working_date = ? "
+                + "AND a.booking_date = ? "
                 + "AND s.department_id = ? "
-                + "AND a.status != 0 ";
+                + "AND a.status not in (0,2 ) ";
 
         String sqlTime = "SELECT COUNT(*) FROM appointment a " // đặt cùng thời gian,khác chuyên khoa 
                 + "JOIN [service] s ON a.service_id = s.service_id "
-                + "JOIN doctor_schedule_slot dss ON a.slot_id = dss.slot_id "
-                + "JOIN doctor_schedule ds ON dss.schedule_id = ds.schedule_id "
                 + "WHERE a.patient_id = ? "
-                + "AND ds.working_date = ? "
+                + "AND a.booking_date = ? "
                 + "AND s.department_id != ? "
                 + "AND CONVERT(varchar, dss.slot_start, 108) = CONVERT(varchar, ?, 108) "
                 + "AND CONVERT(varchar, dss.slot_end, 108) = CONVERT(varchar, ?, 108) "
-                + "AND a.status != 0 ";
+                + "AND a.status not in (0,2) ";
 
         try {
-            
+
             try (PreparedStatement ps = connection.prepareStatement(sqlDept)) {
                 ps.setInt(1, patientId);
                 ps.setDate(2, dateBooking);
@@ -779,7 +804,6 @@ public class AppointmentDAO extends DBContext {
                 }
             }
 
-           
             try (PreparedStatement ps = connection.prepareStatement(sqlTime)) {
                 ps.setInt(1, patientId);
                 ps.setDate(2, dateBooking);
@@ -803,8 +827,7 @@ public class AppointmentDAO extends DBContext {
         AppointmentDAO a = new AppointmentDAO();
 
         // System.out.println(a.getBillstByCode("T250721LUUTKJ"));
-       // System.out.println(a.getAppointmentsByAppointmentId(1));
-
+        // System.out.println(a.getAppointmentsByAppointmentId(1));
         //   System.out.println(a.getAllAppointments());
         //  System.out.println(a.getAppointmentsByUsername("user10"));
         //System.out.println(a.getAllAppointments());

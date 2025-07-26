@@ -36,6 +36,7 @@
                                         </h5>
                                     </div>
 
+
                                     <div class="row g-3">
 
                                         <div class="col-md-6">
@@ -61,30 +62,41 @@
                                             <div class="form-control bg-light">
                                                 <c:if test="${not empty a.departmentName}">${a.departmentName}</c:if>
                                                 <c:if test="${ empty a.departmentName}">#</c:if>
-                                               
+
+                                                </div>
                                             </div>
-                                        </div>
 
-                                        <!-- Dịch vụ -->
 
-                                        <div class="col-md-6">
-                                            <label class="form-label fw-semibold text-secondary">Số điện thoại</label>
-                                            <div class="form-control bg-light">${a.patient.phone}</div>
+                                            <div class="col-md-6">
+                                                <label class="form-label fw-semibold text-secondary">Số điện thoại</label>
+                                                <div class="form-control bg-light">${a.patient.phone}</div>
                                         </div>
                                         <div class="col-md-6">
                                             <label class="form-label fw-semibold text-secondary">Dịch vụ</label>
                                             <div class="form-control bg-light">${a.serviceName}</div>
                                         </div>
-                                        <!-- Ngày khám -->
+
                                         <div class="col-md-6">
                                             <label class="form-label fw-semibold text-secondary">Ngày khám</label>
-                                            <div class="form-control bg-light"><fmt:formatDate value="${a.dateBooking}" pattern="dd/ MM/ yyyy"/></div>
+                                            <c:if test="${not empty a.dateBooking}">
+                                                <div class="form-control bg-light"><fmt:formatDate value="${a.dateBooking}" pattern="dd/ MM/ yyyy"/></div>
+                                            </c:if>
+                                            <c:if test="${ empty a.dateBooking}">
+                                                <div class="form-control bg-light">#</div>
+                                            </c:if>  
+
                                         </div>
 
-                                        <!-- Giờ khám -->
+
                                         <div class="col-md-6">
                                             <label class="form-label fw-semibold text-secondary">Giờ khám dự kiến</label>
-                                            <div class="form-control bg-light"><fmt:formatDate value="${a.slotStart}" pattern="HH:mm"/></div>
+                                            <c:if test="${not empty a.slotStart}">
+                                                <div class="form-control bg-light"><fmt:formatDate value="${a.slotStart}" pattern="HH:mm"/></div>
+                                            </c:if>
+                                            <c:if test="${ empty a.dateBooking}">
+                                                <div class="form-control bg-light">#</div>
+                                            </c:if> 
+
                                         </div>
 
                                     </div>
@@ -102,17 +114,44 @@
 
 
                                     <div class="mt-5 d-flex justify-content-center gap-4">
-                                        <button type="submit" name="action" value="reschedule" class="btn btn-danger px-4 py-2">
-                                            <i class="fa-solid fa-calendar-days me-1"></i> Dời lịch hẹn
+                                        <c:if test="${not empty a.dateBooking}">
+                                            <button type="submit" name="action" value="reschedule" class="btn btn-info px-4 py-2">
+                                                <i class="fa-solid fa-calendar-days me-1"></i> Dời lịch hẹn
+                                            </button>
+                                        </c:if>
+
+                                        <c:if test="${a.paymentStatus == 'success'}">
+                                            <button type="submit" name="action" value="refund" class="btn btn-light px-4 py-2">
+                                                <i class="fa-solid fa-money-bill-wave me-1"></i> Hoàn tiền
+                                            </button>
+                                        </c:if>
+
+                                        <button type="button" class="btn btn-danger px-4 py-2" data-bs-toggle="modal" data-bs-target="#confirmCancelModal">
+                                            <i class="fa-solid fa-money-bill-wave me-1"></i> Hủy lịch
                                         </button>
 
-                                        <button type="submit" name="action" value="refund" class="btn btn-danger px-4 py-2">
-                                            <i class="fa-solid fa-money-bill-wave me-1"></i> Hoàn tiền
-                                        </button>
                                     </div>
                                 </div>
                             </div>
-
+                            <div class="modal fade" id="confirmCancelModal" tabindex="-1" aria-labelledby="confirmCancelModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header bg-danger text-white">
+                                            <h5 class="modal-title" id="confirmCancelModalLabel">Xác nhận hủy lịch</h5>
+                                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Đóng"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            Bạn có chắc chắn muốn <strong>hủy lịch khám</strong> này không?
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Không</button>
+                                            <button type="submit" name="action" value="cancelAppointment" class="btn btn-danger">
+                                                Xác nhận hủy
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </form>
                     </div>
 

@@ -73,16 +73,23 @@
                                     <div class="card shadow rounded-4 d-flex flex-row p-3" style="max-width: 800px; background-color: #f5fcff;">
                                         <!-- Hình bác sĩ -->
                                         <div class="text-center me-3 position-relative">
-                                            <img src="${d.img}" class="rounded-circle" style="width: 120px; height: 120px;" alt="Bác sĩ">
+                                            
+                                            <c:if test="${d.img!='default'}" >
+                                                <img src="${d.img}" class="rounded-circle" style="width: 120px; height: 120px;" alt="Bác sĩ">
+                                            </c:if>
+                                             <c:if test="${d.img =='default'}" >
+                                               <img src="assets/images/avata.png" class="rounded-circle" style="width: 120px; height: 120px;" alt="Bác sĩ"> 
+                                            </c:if>
+                                            
                                             <div class="position-absolute top-100 start-50 translate-middle bg-white px-3 py-1 rounded shadow-sm " style="margin-top: -80px; width: 130px">
                                                 <a href="#">Xem chi tiết</a>
                                             </div>
                                             <!-- Rating -->
-                                            <div class="mt-5 d-flex justify-content-center align-items-center border rounded-pill px-3 py-1 text-primary fw-bold" style="gap: 10px; border-color: #00bfff;">
+<!--                                            <div class="mt-5 d-flex justify-content-center align-items-center border rounded-pill px-3 py-1 text-primary fw-bold" style="gap: 10px; border-color: #00bfff;">
                                                 <span>4 ⭐</span>
                                                 <div style="border-left: 1px solid #00bfff; height: 20px;"></div>
                                                 <span>40 👤</span>
-                                            </div>
+                                            </div>-->
                                         </div>
 
                                         <!-- Thông tin bác sĩ -->

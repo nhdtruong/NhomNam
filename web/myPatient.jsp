@@ -89,35 +89,35 @@
 
                                     <div class="col-md-4 ">
                                         <div class="col-md-12">
-                                            <h5 class="mb-0">Bệnh nhân của tôi</h5>
+                                            <h5 class="mb-0" style="padding-top: 10px;padding-left: 20px">Bệnh nhân của tôi</h5>
                                         </div>
 
                                     </div>
                                     <div class="col-md-8 ">
-                                        <form class="row" action="appointmentManager?action=filter" method="POST" onSubmit="document.getElementById('submit').disabled = true;">
-                                            <div class=" justify-content-md-around row ">
-
-
-                                                <div class="col-md-5 row align-items-center">
-                                                    <div class="col-md-5" style="text-align: end">
-                                                        <label  class="form-label">Trạng thái</label>
-                                                    </div>
-                                                    <div class="col-md-7">
-                                                        <select name="status" class="form-select">
-                                                            <option <c:if test="${status == 'all'}"> selected </c:if> value="all">Tất cả</option>
-                                                            <option <c:if test="${status == '1'}"> selected </c:if> value="1">Đã đặt lịch</option>                                       
-                                                            <option <c:if test="${status == '0'}"> selected </c:if> value="0">Đã hủy lịch</option>
-                                                            <option <c:if test="${status == '2'}"> selected </c:if> value="2">Đã khám</option>
-                                                            <option <c:if test="${status == '3'}"> selected </c:if> value="3">Yêu cầu hủy lịch</option>
-                                                            </select>  
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-md-1 md-0">
-                                                        <button type="submit" class="btn btn-primary">Lọc</button>
-                                                    </div>
-                                                </div>
-                                            </form>
+                                        <!--                                        <form class="row" action="appointmentManager?action=filter" method="POST" onSubmit="document.getElementById('submit').disabled = true;">
+                                                                                    <div class=" justify-content-md-around row ">
+                                        
+                                        
+                                                                                        <div class="col-md-5 row align-items-center">
+                                                                                            <div class="col-md-5" style="text-align: end">
+                                                                                                <label  class="form-label">Trạng thái</label>
+                                                                                            </div>
+                                                                                            <div class="col-md-7">
+                                                                                                <select name="status" class="form-select">
+                                                                                                    <option <c:if test="${status == 'all'}"> selected </c:if> value="all">Tất cả</option>
+                                                                                                    <option <c:if test="${status == '1'}"> selected </c:if> value="1">Đã đặt lịch</option>                                       
+                                                                                                    <option <c:if test="${status == '0'}"> selected </c:if> value="0">Đã hủy lịch</option>
+                                                                                                    <option <c:if test="${status == '2'}"> selected </c:if> value="2">Đã khám</option>
+                                                                                                    <option <c:if test="${status == '3'}"> selected </c:if> value="3">Yêu cầu hủy lịch</option>
+                                                                                                    </select>  
+                                                                                                </div>
+                                                                                            </div>
+                                        
+                                                                                            <div class="col-md-1 md-0">
+                                                                                                <button type="submit" class="btn btn-primary">Lọc</button>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </form>-->
                                         </div>
 
                                     </div>
@@ -151,7 +151,13 @@
                                                             <td class="p-3">${p.patientName}</td>
                                                             <td class="p-3"><fmt:formatDate value="${p.dob}" pattern="dd/MM/yyyy"/></td>
                                                             <td class="p-3">${p.phone}</td>
-                                                            <td class="p-3">${p.job}</td>
+                                                            <c:if test="${empty p.job}">
+                                                                <td class="p-3">Không</td>
+                                                            </c:if>
+                                                            <c:if test="${not empty p.job}">
+                                                              <td class="p-3">${p.job}</td>
+                                                            </c:if>
+                                                            
                                                             <td class="p-3">${p.gender}</td>
                                                             <td class="p-3">${p.address}</td>
                                                             <td class="p-3">

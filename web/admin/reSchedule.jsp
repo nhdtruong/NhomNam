@@ -67,7 +67,7 @@
 
                                 <div class="card">
                                     <div class="card-header">
-                                        <h5 class="mb-0">Chọn lại lịch khám phù hợ dp:</h5>
+                                        <h5 class="mb-0">Chọn lại lịch khám phù hợp:</h5>
                                     </div>
 
                                     <div class="card-body">

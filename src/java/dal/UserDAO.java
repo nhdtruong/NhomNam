@@ -75,7 +75,7 @@ public class UserDAO extends DBContext {
 
     public List<String> getEmailsByRole12() {
         List<String> emails = new ArrayList<>();
-        String sql = "SELECT email FROM users WHERE role_id IN (1, 2)";
+        String sql = "SELECT email FROM users WHERE role_id = 2 ";
 
         try (PreparedStatement ps = connection.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
 

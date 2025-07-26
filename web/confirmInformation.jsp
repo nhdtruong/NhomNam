@@ -332,7 +332,7 @@
             }
 
         </style>
-        <!-- Modal thông báo lỗi -->
+     
         <div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content border-danger">

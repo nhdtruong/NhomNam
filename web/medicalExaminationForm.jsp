@@ -64,9 +64,14 @@
                                                                 </div>
                                                             </div>
                                                             <div>
-                                                                <c:if test="${b.status == 1}">
+                                                                <c:if test="${b.status == 1 || b.status == 4}">
                                                                     <span class="px-4 py-2" style="font-size: 1.1rem;border-radius: 10px; background-color: #02cd60;color:whitesmoke;font-weight: 500;">
                                                                         Đặt khám thành công
+                                                                    </span>
+                                                                </c:if>
+                                                                <c:if test="${b.status == 2}">
+                                                                    <span class="px-4 py-2" style="font-size: 1.1rem;border-radius: 10px; background-color: #02cd60;color:whitesmoke;font-weight: 500;">
+                                                                        Đã khám
                                                                     </span>
                                                                 </c:if>
                                                                 <c:if test="${b.status == 0}">
@@ -87,7 +92,6 @@
                                                             <li class="d-flex align-items-center margin5px">
                                                                 <i class="fa-solid fa-hospital text-primary me-2 opacit"></i>
                                                                 <h5 class="mb-0" style="color:#2698D6">Bệnh viện đại học FPT</h5>
-<!--                                                                <img style="width: 280px; height: 280px;margin-left: 50px"  src="http://localhost:8080/doctris2/QRCodeServlet?data=http://localhost:8080/doctris2/billsDetail?appointment_code=${b.appointment_code}" alt="alt"/>-->
                                                             </li>
                                                             <c:if test="${not empty b.departmentName}">
                                                                 <li class="d-flex align-items-center margin5px">
@@ -118,13 +122,9 @@
                                                                     <fmt:formatDate value="${b.slotStart}" pattern="HH:mm" />
                                                                 </span>
                                                             </li>
-                                                            <!--                                                            <li class="d-flex align-items-center margin5px">
-                                                                                                                            <img style="width: 70px; height: 70px"  src="http://localhost:8080/doctris2/QRCodeServlet?data=http://localhost:8080/doctris2/billsDetail?appointment_code=${b.appointment_code}" alt="alt"/>
-                                                                                                                        </li>-->
 
-                                                            <div class="text-end" style="margin-top: -130px">
-                                                                <img style="width: 150px; height: 150px;margin-left: 50px"  src="http://localhost:8080/doctris2/QRCodeServlet?data=http://localhost:8080/doctris2/billsDetail?appointment_code=${b.appointment_code}" alt="alt"/>
-                                                            </div>
+                                                           
+
                                                         </ul>
                                                     </div>
                                                 </div>

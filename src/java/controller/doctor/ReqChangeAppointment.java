@@ -127,38 +127,15 @@ public class ReqChangeAppointment extends HttpServlet {
             request.getRequestDispatcher("doctorReqChangeAppointment.jsp").forward(request, response);
 
         } else if (action.equals("excuteReqChange")) {
-            
+
             AppointmentDAO appointmentDAO = new AppointmentDAO();
             String appointmentId = request.getParameter("appointmentId");
-            String doctorId = request.getParameter("doctorId");
-            String slotId = request.getParameter("slotId");
-            String dateBooking_ = request.getParameter("dateBooking");
-            String slotEnd_ = request.getParameter("slotEnd");
-            String slotStart_ = request.getParameter("slotStart");
-            
-            
-            Date dateBooking = null;
-            try {
-                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-                sdf.setLenient(false);
 
-                java.util.Date parsedDate = sdf.parse(dateBooking_);
-                dateBooking = new java.sql.Date(parsedDate.getTime());
+            String slotIdReqChange = request.getParameter("slotIdReqChange");
 
-                System.out.println("Parsed date: " + dateBooking);  
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            Time slotStart = Time.valueOf(slotStart_);
-            Time slotEnd = Time.valueOf(slotEnd_);
-
-             boolean updated = appointmentDAO.reqChangeAppointmentByDoctor(
+            boolean updated = appointmentDAO.reqChangeAppointmentByDoctor(
                     Integer.parseInt(appointmentId),
-                    Integer.parseInt(doctorId),
-                    Integer.parseInt(slotId),
-                    dateBooking,
-                    slotStart,
-                    slotEnd
+                    Integer.parseInt(slotIdReqChange)
             );
             if (updated) {
                 response.sendRedirect("myAppointment?action=all");
@@ -167,8 +144,6 @@ public class ReqChangeAppointment extends HttpServlet {
                 request.setAttribute("error", "Lỗi yêu cầu đổi lịch hẹn");
                 response.sendRedirect("login");
             }
-
-            
 
         }
     }

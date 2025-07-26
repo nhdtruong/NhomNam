@@ -77,81 +77,33 @@
                                     <div class="col">
                                         <h5 class="mb-1 fw-semibold">${s.service_name}</h5>
                                         <div class="text-muted small d-flex align-items-center">
-                                            <i class="fa-solid fa-hospital opacity"></i> <span style="margin-left: 5px">Trung Tâm Nội Soi Tiêu Hóa Doctor Check</span>
+                                            <i class="fa-solid fa-hospital opacity"></i> <span style="margin-left: 5px">Bệnh Viện Đa Khoa - Đại Học FPT</span>
 
                                         </div>
                                         <div class="d-flex justify-content-between align-items-center mt-2">
                                             <div class="text-warning fw-bold fs-6">Giá: <span><fmt:formatNumber value="${s.fee}" pattern="#,##0"/> đ</span></div>
                                             <div class="d-flex gap-2">
-                                                <button class="btn btn-outline-primary btn-sm rounded-pill">Xem chi tiết</button>
-                                                 <a href="booking.HealthPackage?stepName=dateTime&service_id=${s.service_id}&categoryService_id=${s.category_service_id}" class="btn btn-info text-white fw-bold px-4 py-2 rounded-pill">Đặt khám ngay</a>
+<!--                                                <button class="btn btn-outline-primary btn-sm rounded-pill">Xem chi tiết</button>-->
+                                                <a href="booking.HealthPackage?stepName=dateTime&service_id=${s.service_id}&categoryService_id=${s.category_service_id}" class="btn btn-info text-white fw-bold px-4 py-2 rounded-pill">Đặt khám ngay</a>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            
+
 
                         </c:forEach>
                     </div>
 
-                    <!-- BỘ LỌC (4 cột) -->
+
                     <div class="col-lg-3 col-md-12 mt-3 pt-2">
                         <div class="card border-0 sidebar sticky-bar rounded shadow">
                             <div class="card-body">
-                                <form action="callVideoWithDoctor" method="get">
-                                    <input type="hidden" name="action" value="filter">
-                                    <input type="hidden" name="categoryService_id" value="${categoryService_id}">
-                                    <div class="widget mb-4 pb-2">
-                                        <h5 class="widget-title">Lọc</h5>
-                                        <div class="row align-items-center">
-                                            <div class="col-md-12">
-                                                <label class="form-label">Giới tính</label>
-                                            </div>
-                                            <div class="col-md-12">
-                                                <select name="gender" class="form-select">
-                                                    <option <c:if test="${gender == 'all'}"> selected </c:if> value="all">Tất cả</option>
-                                                    <option <c:if test="${gender == 'Nam'}"> selected </c:if> value="Nam">Nam</option>
-                                                    <option <c:if test="${gender == 'Nữ'}"> selected </c:if> value="Nữ">Nữ</option>
-                                                    <option <c:if test="${gender == 'Khác'}"> selected </c:if> value="Nữ">Khác</option>
-                                                    </select>  
-                                                </div>
-                                            </div>
-                                            <br>
-                                            <div class="row align-items-center">
-                                                <div class="col-md-12">
-                                                    <label class="form-label">Chuyên môn</label>
-                                                </div>
-                                                <div class="col-md-12">
-                                                    <select name="department_id" class="form-select">
-                                                        <option <c:if test="${department_id == 'all'}"> selected </c:if> value="all">Tất cả</option>
-                                                    <c:forEach items="${department}" var="de">
-                                                        <option <c:if test="${de.getId().toString() == department_id}"> selected </c:if> value="${de.getId()}">${de.getDepartment_name()}</option>
-                                                    </c:forEach>
-                                                </select>  
-
-                                            </div>
-                                        </div>
-                                        <br>
-                                        <div class="widget mb-4 pb-2">
-                                            <h5 class="widget-title">Sắp xếp</h5>
-                                            <div class="row align-items-center">
-                                                <div class="col-md-12">
-                                                    <select name="SortType" class="form-select">
-                                                        <option <c:if test="${sort == 'all'}"> selected </c:if> value="all">Tất cả</option>
-                                                        <option <c:if test="${sort == 'star'}"> selected </c:if> value="star">Star</option>
-                                                        <option <c:if test="${sort == 'latest'}"> selected </c:if> value="latest">Mới nhất</option>
-                                                        <option <c:if test="${sort == 'popular'}"> selected </c:if> value="popular">Phổ biến</option>
-                                                        </select>  
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <button type="submit" class="btn btn-primary">Lọc</button>
-                                        </div>
-                                    </form>
-                                </div>
+                                <h4 class="fw-bold mb-3" style="color: #00b4d8;">GÓI KHÁM SỨC KHỎE</h4>
+                                <img src="assets/images/bg/banner7.png" alt="Gọi video với bác sĩ" class="img-fluid" style="max-width: 100%; height: 300px">
                             </div>
                         </div>
+                    </div>
 
                     <c:set var="page" value="${page}"/>
                     <div class="row text-center">
@@ -211,8 +163,8 @@
         <jsp:include page="layout/search.jsp"/>
         <jsp:include page="layout/facebookchat.jsp"/>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-        
-         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
         <script src="assets/js/bootstrap.bundle.min.js"></script>
         <script src="assets/js/feather.min.js"></script>

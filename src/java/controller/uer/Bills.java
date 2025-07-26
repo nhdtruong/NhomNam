@@ -87,12 +87,12 @@ public class Bills extends HttpServlet {
         for (AppointmentView b : list) {
             switch (filter) {
                 case "pending": // trươgf hơpj chưa thanh toán , đã đặt 
-                    if ("pending".equals(b.getPaymentStatus()) && b.getStatus() == 1) {
+                    if ("pending".equals(b.getPaymentStatus()) && (b.getStatus() == 1 || b.getStatus() ==  4) ) {
                         filteredBills.add(b);
                     }
                     break;
                 case "success": //trường hợp đã thanh toán , đã đặt , , muốn hủy vì đã thanh toán
-                    if ("success".equals(b.getPaymentStatus()) && (b.getStatus() == 1 || b.getStatus() == 3)) {
+                    if ("success".equals(b.getPaymentStatus()) && (b.getStatus() == 1 || b.getStatus() == 3 || b.getStatus() == 4)) {
                         filteredBills.add(b);
                     }
                     break;
