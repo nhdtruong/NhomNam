@@ -155,44 +155,47 @@
                                                 <p><strong>📘 Hướng dẫn dùng thuốc:</strong> ${record.instruction}</p>
                                                 <p><strong>📌 Ghi chú thêm:</strong> ${record.note}</p>
                                             </div>
-                                            <!-- 6. Đánh giá bác sĩ -->
-                                            <div class="mb-3">
-                                                <h6 class="fw-bold text-primary">⭐ Đánh giá bác sĩ</h6>
+                                            <c:if test="${not empty token}">
+                                                6. Đánh giá bác sĩ 
+                                                <div class="mb-3">
+                                                    <h6 class="fw-bold text-primary">⭐ Đánh giá bác sĩ</h6>
 
-                                                <c:choose>
-                                                    <c:when test="${record.instruction}">
-                                                        <p>🔢 <strong>Số sao:</strong> 
-                                                            <c:forEach begin="1" end="5" var="i">
-                                                                <i class="fa${i <= record.instruction ? 's' : 'r'} fa-star text-warning"></i>
-                                                            </c:forEach>
-                                                            (${record.instruction}/5)
-                                                        </p>
-                                                        <p>💬 <strong>Phản hồi:</strong> ${record.instruction}</p>
-                                                    </c:when> 
-                                                    <c:otherwise>
-                                                        <form action="rateDoctor" method="post">
-                                                            <input type="hidden" name="doctorId" value="${record.doctorId}" />
-                                                            <input type="hidden" name="patientId" value="${record.patient.patientId}" />
-                                                            <input type="hidden" name="recordId" value="${record.recordId}" />
+                                                    <c:choose>
+                                                        <c:when test="${record.instruction}">
+                                                            <p>🔢 <strong>Số sao:</strong> 
+                                                                <c:forEach begin="1" end="5" var="i">
+                                                                    <i class="fa${i <= record.instruction ? 's' : 'r'} fa-star text-warning"></i>
+                                                                </c:forEach>
+                                                                (${record.instruction}/5)
+                                                            </p>
+                                                            <p>💬 <strong>Phản hồi:</strong> ${record.instruction}</p>
+                                                        </c:when> 
+                                                        <c:otherwise>
+                                                            <form action="rateDoctor" method="post">
+                                                                <input type="hidden" name="doctorId" value="${record.doctorId}" />
+                                                                <input type="hidden" name="patientId" value="${record.patient.patientId}" />
+                                                                <input type="hidden" name="recordId" value="${record.recordId}" />
 
-                                                            <div class="mb-2">
-                                                                <label for="star">Chọn số sao:</label>
-                                                                <select name="star" class="form-select" style="width: 150px; display: inline-block;">
-                                                                    <option value="5">5 - Xuất sắc</option>
-                                                                    <option value="4">4 - Tốt</option>
-                                                                    <option value="3">3 - Bình thường</option>
-                                                                    <option value="2">2 - Kém</option>
-                                                                    <option value="1">1 - Rất tệ</option>
-                                                                </select>
-                                                            </div>
-                                                            <div class="mb-2">
-                                                                <textarea name="feedback" class="form-control" rows="2" placeholder="Nhận xét về bác sĩ..."></textarea>
-                                                            </div>
-                                                            <button type="submit" class="btn btn-success btn-sm">Gửi đánh giá</button>
-                                                        </form>
-                                                    </c:otherwise>
-                                                </c:choose>
-                                            </div>
+                                                                <div class="mb-2">
+                                                                    <label for="star">Chọn số sao:</label>
+                                                                    <select name="star" class="form-select" style="width: 150px; display: inline-block;">
+                                                                        <option value="5">5 - Xuất sắc</option>
+                                                                        <option value="4">4 - Tốt</option>
+                                                                        <option value="3">3 - Bình thường</option>
+                                                                        <option value="2">2 - Kém</option>
+                                                                        <option value="1">1 - Rất tệ</option>
+                                                                    </select>
+                                                                </div>
+                                                                <div class="mb-2">
+                                                                    <textarea name="feedback" class="form-control" rows="2" placeholder="Nhận xét về bác sĩ..."></textarea>
+                                                                </div>
+                                                                <button type="submit" class="btn btn-success btn-sm">Gửi đánh giá</button>
+                                                            </form>
+                                                        </c:otherwise>
+                                                    </c:choose>
+                                                </div>
+                                            </c:if>
+
                                         </div>
                                     </div>
                                 </c:forEach>

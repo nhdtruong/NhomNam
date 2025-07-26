@@ -2,9 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
+
 package controller.doctor;
 
-import dal.AppointmentDAO;
 import dal.MedicalRecordDAO;
 import dal.MedicineDAO;
 import dal.PatientDAO;
@@ -19,6 +19,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.util.List;
 import model.AccountUser;
+import model.MedicalRecord;
 import model.Medicine;
 import model.Patient;
 
@@ -26,39 +27,37 @@ import model.Patient;
  *
  * @author DELL
  */
-@WebServlet(name = "Examination", urlPatterns = {"/examination"})
-public class Examination extends HttpServlet {
-
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
+@WebServlet(name="MedicalHistoryOfPatient", urlPatterns={"/medicalHistoryOfPatient"})
+public class MedicalHistoryOfPatient extends HttpServlet {
+   
+    /** 
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet Examination</title>");
+            out.println("<title>Servlet MedicalHistoryOfPatient</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet Examination at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet MedicalHistoryOfPatient at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
-    }
+    } 
+    
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
+    /** 
      * Handles the HTTP <code>GET</code> method.
-     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -66,9 +65,8 @@ public class Examination extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-
-        HttpSession session = request.getSession();
+    throws ServletException, IOException {
+         HttpSession session = request.getSession();
         AccountUser acc = (AccountUser) session.getAttribute("user");
         if (acc == null) {
             response.sendRedirect("home");
@@ -76,28 +74,27 @@ public class Examination extends HttpServlet {
         }
         UserDAO userDAO = new UserDAO();
  
-        MedicineDAO medicineDAO = new MedicineDAO();
-        List<Medicine> medicineList = medicineDAO.getAllMedicines();
-        request.setAttribute("medicineList", medicineList);
+ 
         int doctorId = userDAO.getDoctorIdByUsername(acc.getUsername());
-        int appointmentId = Integer.parseInt(request.getParameter("appointmentId"));
-        request.setAttribute("appointmentId", appointmentId);
+     
+       
         request.setAttribute("doctorId", doctorId);
         String patientId = request.getParameter("patientId");
         PatientDAO patientDAO = new PatientDAO();
         Patient patient = patientDAO.getPatientById(Integer.parseInt(patientId));
-      //  MedicalRecordDAO medicalRecordDAO = new MedicalRecordDAO();
-       // var listmdr = medicalRecordDAO.getMedicalRecordsByDoctorAndPatient(doctorId, Integer.parseInt(patientId));
-      //  request.setAttribute("listmdr", listmdr);
-      //  System.out.println(listmdr.size());
+        
+
+        MedicalRecordDAO medicalRecordDAO = new MedicalRecordDAO();
+
+        List<MedicalRecord> listMedicalRecord = medicalRecordDAO.getMedicalHistoryByPatientIdAndDoctorId(Integer.parseInt(patientId), doctorId);
+        request.setAttribute("records", listMedicalRecord);
         request.setAttribute("patient", patient);
-        request.getRequestDispatcher("examination.jsp").forward(request, response);
+        request.setAttribute("token","doctor");
+        request.getRequestDispatcher("medicalHistory.jsp").forward(request, response);
+    } 
 
-    }
-
-    /**
+    /** 
      * Handles the HTTP <code>POST</code> method.
-     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -105,55 +102,12 @@ public class Examination extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        
-        request.setCharacterEncoding("UTF-8");
-        response.setCharacterEncoding("UTF-8");
-        int patientId = Integer.parseInt(request.getParameter("patientId"));
-        int doctorId = Integer.parseInt(request.getParameter("doctorId"));
-        int appointmentId = Integer.parseInt(request.getParameter("appointmentId"));
-
-        String symptoms = request.getParameter("symptoms");
-        String diagnosis = request.getParameter("diagnosis");
-        String conclusion = request.getParameter("conclusion");
-
-
-        String instruction = request.getParameter("instruction");
-        String note = request.getParameter("note");
-
-        String[] selectedMedicineIds = request.getParameterValues("medicineIds");
-
-        
-     
-        MedicalRecordDAO dao = new MedicalRecordDAO();
-        boolean success = dao.insertMedicalRecord(
-                patientId,
-                doctorId,
-                symptoms,
-                diagnosis,
-                conclusion,
-                instruction,
-                note,
-                selectedMedicineIds
-        );
-
-        if (success) {
-              AppointmentDAO appointmentDAO = new AppointmentDAO();
-             boolean examined =  appointmentDAO.updateAppointmentById(appointmentId);
-             if(examined){
-                 
-                 response.sendRedirect("myPatient");
-             }
-              
-        } else {
-            request.setAttribute("error", "Lưu bệnh án thất bại.");
-            request.getRequestDispatcher("recordForm.jsp").forward(request, response);
-        }
+    throws ServletException, IOException {
+        processRequest(request, response);
     }
 
-    /**
+    /** 
      * Returns a short description of the servlet.
-     *
      * @return a String containing servlet description
      */
     @Override
