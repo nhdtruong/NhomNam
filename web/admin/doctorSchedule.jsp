@@ -17,7 +17,7 @@
                         <div class="row">
                             <div class="col-md-3 row">
                                 <div class="col-md-4">
-                                    <h5 class="mb-0">Doctor Schedule</h5>
+                                    <h5 class="mb-0">Manage doctor's schedule</h5>
                                 </div>
                                 <div class="col-md-8">
                                     <div class="search-bar p-0 d-lg-block ms-2">                                                        

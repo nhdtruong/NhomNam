@@ -4,6 +4,7 @@
  */
 package dal;
 
+import DTOStatic.AppointmentStat;
 import context.DBContext;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -216,8 +217,10 @@ public class AppointmentDAO extends DBContext {
         return false;
     }
 
+
     public boolean reqChangeAppointmentByDoctor(int appointmentId, int slot_id_request_change) {
         String sql = "UPDATE appointment SET  slot_id_request_change = ?,status = 4  WHERE appointment_id = ?";
+
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
            
@@ -769,6 +772,46 @@ public class AppointmentDAO extends DBContext {
             int rowsAffected = ps.executeUpdate();
             return rowsAffected > 0;
         } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public int countAppointmentsByMonthYear(int year, int month) {
+        String sql = """
+            SELECT COUNT(*) AS total
+            FROM [clinic_db4].[dbo].[appointment]
+            WHERE YEAR([created_at]) = ? AND MONTH([created_at]) = ?
+            """;
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+
+            ps.setInt(1, year);
+            ps.setInt(2, month);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt("total");
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return 0; // mặc định nếu không có kết quả
+    }
+
+    public boolean updateStatusToZero(int appointmentId) {
+        String sql = "UPDATE appointment SET status = 0 WHERE appointment_id = ?";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+
+            ps.setInt(1, appointmentId);
+
+            int rows = ps.executeUpdate();
+            return rows > 0; // nếu có ít nhất 1 dòng được update
+        } catch (SQLException e) {
             e.printStackTrace();
             return false;
         }
