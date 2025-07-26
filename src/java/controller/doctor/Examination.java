@@ -75,7 +75,7 @@ public class Examination extends HttpServlet {
             return;
         }
         UserDAO userDAO = new UserDAO();
-
+ //
         MedicineDAO medicineDAO = new MedicineDAO();
         List<Medicine> medicineList = medicineDAO.getAllMedicines();
         request.setAttribute("medicineList", medicineList);
